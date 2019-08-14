@@ -38,9 +38,27 @@ $(document).ready(function(){
     });
     $("#saveRecordBtn").click(function(){
         alert("The saveRecordBtn was clicked.");
-
+        var eventsObjArr = [];
+        for(var i=0;i<times.length;i++){
+            eventsObjArr.push({time: times[i], event: events[i]});
+        }
+        var jsonEvents = JSON.stringify(eventsObjArr)
+        saveAndDownload("events.json", jsonEvents);
     });
 });
+
+function saveAndDownload(filename, data) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(data));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+    document.body.removeChild(element);
+}
+
 function listenForEvents(event) {
     if (recordStatus === "recording") {
         var t = Date.now();
