@@ -1,17 +1,67 @@
 <!DOCTYPE html>
 <html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+var recordStatus ="notStarted";
+var prevTime = 0;
+var startTime = 0;
+var stopTime = 0;
+var pauseTime = 0;
+$(document).ready(function(){
+    $("#startRecordBtn").click(function(){
+        alert("The startRecordBtn was clicked.");
+        recordStatus = "recording";
+        startTime = Date.now();
+        prevTime = startTime;
+    });
+    $("#stopRecordBtn").click(function(){
+        alert("The stopRecordBtn was clicked.");
+        stopTime = Date.now();
+        recordStatus = "stopped";
+    });
+
+     $("#pauseRecordBtn").click(function(){
+        alert("The pauseRecordBtn was clicked.");
+        recordStatus = "paused";
+        pauseTime =  Date.now();
+    });
+    $("#resumeRecordBtn").click(function(){
+        //alert("The resumeRecordBtn was clicked.");
+        recordStatus = "recording";
+        prevTime = Date.now();
+    });
+    $("#saveRecordBtn").click(function(){
+        alert("The saveRecordBtn was clicked.");
+
+    });
+
+});
+</script>
+
+</head>
 <body>
 
+
 <h1>History</h1>
-<textarea  id="demo"></textarea>
+<button id="startRecordBtn">Start</button>
+<button id="stopRecordBtn">Stop</button>
+<button id="pauseRecordBtn">Pause</button>
+<button id="resumeRecordBtn">Resume</button>
+<button id="saveRecordBtn">Save</button>
+<br>
+<hr>
+<textarea  id="recordArea" rows="10" cols="50"></textarea>
+
 
 <script>
 var events = [];
 var times =[];
 var timeEventMap = {};
-document.getElementById("demo").addEventListener("keydown", myFunction);
+var prevTime =0;
+document.getElementById("recordArea").addEventListener("keydown", myFunction);
 
-function myFunction(event) {
+function record(event) {
 var t = Date.now();
  times.push(t);
  timeEventMap['t'+t]=event;
