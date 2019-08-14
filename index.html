@@ -8,6 +8,7 @@ var prevTime = 0;
 var startTime = 0;
 var stopTime = 0;
 var pauseTime = 0;
+var resumeTime = 0;
 
 var events = [];
 var times =[];
@@ -15,39 +16,39 @@ var timeEventMap = {};
 
 $(document).ready(function(){
     $("#startRecordBtn").click(function(){
-        alert("The startRecordBtn was clicked.");
+        $("#recordArea").keydown("keydown", listenForEvents);
+        prevTime = startTime;
         recordStatus = "recording";
         startTime = Date.now();
-        prevTime = startTime;
     });
     $("#stopRecordBtn").click(function(){
-        alert("The stopRecordBtn was clicked.");
         stopTime = Date.now();
         recordStatus = "stopped";
+        $("#recordArea").off("keydown");
     });
 
      $("#pauseRecordBtn").click(function(){
-        alert("The pauseRecordBtn was clicked.");
         recordStatus = "paused";
         pauseTime =  Date.now();
     });
     $("#resumeRecordBtn").click(function(){
-        //alert("The resumeRecordBtn was clicked.");
         recordStatus = "recording";
-        prevTime = Date.now();
+        resumeTime = Date.now();
+        prevTime = resumeTime;
     });
     $("#saveRecordBtn").click(function(){
         alert("The saveRecordBtn was clicked.");
 
     });
-
-    $("#recordArea").keydown("keydown", listenForEvents);
 });
 function listenForEvents(event) {
-    var t = Date.now();
-    times.push(t);
-    timeEventMap['t'+t]=event;
-    events.push(event);
+    if (recordStatus === "recording") {
+        var t = Date.now();
+        times.push(t);
+        timeEventMap['t'+t]=event;
+        events.push(event);
+        console.log(events);
+    }
 }
 </script>
 
