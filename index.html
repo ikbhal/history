@@ -8,6 +8,11 @@ var prevTime = 0;
 var startTime = 0;
 var stopTime = 0;
 var pauseTime = 0;
+
+var events = [];
+var times =[];
+var timeEventMap = {};
+
 $(document).ready(function(){
     $("#startRecordBtn").click(function(){
         alert("The startRecordBtn was clicked.");
@@ -36,13 +41,18 @@ $(document).ready(function(){
 
     });
 
+    $("#recordArea").keydown("keydown", listenForEvents);
 });
+function listenForEvents(event) {
+    var t = Date.now();
+    times.push(t);
+    timeEventMap['t'+t]=event;
+    events.push(event);
+}
 </script>
 
 </head>
 <body>
-
-
 <h1>History</h1>
 <button id="startRecordBtn">Start</button>
 <button id="stopRecordBtn">Stop</button>
@@ -52,28 +62,6 @@ $(document).ready(function(){
 <br>
 <hr>
 <textarea  id="recordArea" rows="10" cols="50"></textarea>
-
-
-<script>
-var events = [];
-var times =[];
-var timeEventMap = {};
-var prevTime =0;
-document.getElementById("recordArea").addEventListener("keydown", myFunction);
-
-function record(event) {
-var t = Date.now();
- times.push(t);
- timeEventMap['t'+t]=event;
- events.push(event);
- console.log(Date.now() + "->" + event.key);
- console.log(events);
- console.log(timeEventMap);
- console.log(times);
-}
-
-</script>
-
 </body>
 </html>
 
